@@ -35,10 +35,10 @@ class BlacklistValidator < ActiveModel::EachValidator
 
   def load_blacklist!
     if defined?(Rails.root) && (blacklist_file_path = Rails.root.join("config", "blacklist.yml")).exist?
-      base_dir = blacklist_file_path
+      blacklist_path = blacklist_file_path
     end
-    base_dir ||= File.read(File.join(File.dirname(__FILE__), "../config/blacklist.yml"))
-    @blacklist = YAML::load(base_dir)
+    blacklist_path ||= File.read(File.join(File.dirname(__FILE__), "../config/blacklist.yml"))
+    @blacklist = YAML::load(blacklist_path)
   end
 
 end

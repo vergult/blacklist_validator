@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version     = "0.0.1"
   s.authors     = ["Axel Vergult"]
   s.email       = ["axel.vergult@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/episko/blacklist_validator"
   s.summary     = %q{Blacklist validator for Rails 3}
   s.description = %q{Blacklist validator for Rails 3}
 

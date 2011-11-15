@@ -7,7 +7,7 @@ class TestUser < TestModel
 end
 
 class TestUserWithMessage < TestModel
-  validates :name, blacklist: { message: 'is not tolerated' }
+  validates :name, blacklist: { message: 'is not part of the whitelist' }
 end
 
 class TestBlacklistValidator < MiniTest::Unit::TestCase
@@ -33,7 +33,7 @@ class TestBlacklistValidator < MiniTest::Unit::TestCase
   def test_custom_message_on_error
     test_user = TestUserWithMessage.new(name: "Fuck it up")
     refute test_user.valid?
-    assert test_user.errors[:name].include?("is not tolerated")
+    assert test_user.errors[:name].include?("is not part of the whitelist")
   end
 
   #######################
