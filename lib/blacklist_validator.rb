@@ -1,15 +1,14 @@
 # -*- encoding: utf-8 -*-
 
 class BlacklistValidator < ActiveModel::EachValidator
-  attr_accessor :blacklist
-
-  def initialize(options)
-    load_blacklist!
-    super(options)
-  end
 
   def validate_each(record, attribute, value)
     record.errors.add(attribute, options[:message] || invalid_message(record, attribute)) if blacklisted?(value)
+  end
+
+  # Lazy load and transform directly words to patterns instead of creating regexps at each matching tests
+  def blacklist
+    @blacklist ||= YAML.load_file(blacklist_file).map { |word| /(#{word})+/i }
   end
 
   #######################
@@ -25,20 +24,14 @@ class BlacklistValidator < ActiveModel::EachValidator
   end
 
   def blacklisted?(str)
-    @blacklist.each { |word| return true if greedy_match?(str, word) }
-    false
+    blacklist.any? { |pattern| str =~ pattern }
   end
 
-  def greedy_match?(str, word)
-    str =~ /(#{word})+/i
-  end
-
-  def load_blacklist!
+  def blacklist_file
     if defined?(Rails.root) && (blacklist_file_path = Rails.root.join("config", "blacklist.yml")).exist?
-      blacklist_path = blacklist_file_path
+      return blacklist_file_path
     end
-    blacklist_path ||= File.join(File.dirname(__FILE__), "../config/blacklist.yml")
-    @blacklist = YAML.load_file(blacklist_path)
+    File.join(File.dirname(__FILE__), "../config/blacklist.yml")
   end
 
 end
