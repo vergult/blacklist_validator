@@ -20,8 +20,8 @@ class BlacklistValidator < ActiveModel::EachValidator
 
   def invalid_message(record, attribute)
     I18n.t  :blacklisted,
-            scope: "#{record.class.i18n_scope}.errors.models.#{record.class.model_name.i18n_key}.attributes.#{attribute}",
-            default: "is blacklisted"
+            scope:    "#{record.class.i18n_scope}.errors.models.#{record.class.model_name.i18n_key}.attributes.#{attribute}",
+            default:  "is blacklisted"
   end
 
   def blacklisted?(str)
@@ -34,7 +34,11 @@ class BlacklistValidator < ActiveModel::EachValidator
   end
 
   def load_blacklist!
-    @blacklist = YAML::load(File.read(File.join(File.dirname(__FILE__), "../config/blacklist.yml")))
+    if defined?(Rails.root) && (blacklist_file_path = Rails.root.join("config", "blacklist.yml")).exist?
+      base_dir = blacklist_file_path
+    end
+    base_dir ||= File.read(File.join(File.dirname(__FILE__), "../config/blacklist.yml"))
+    @blacklist = YAML::load(base_dir)
   end
 
 end
