@@ -34,6 +34,11 @@ If you use I18n, the default key to translate is :blacklisted. So if you add to 
 
 You can translate (or overload) the default message via for e.g. using activerecord (in english): "en.activerecord.errors.models.user.attributes.name.blacklisted"
 
+Compatibility
+-------------
+
+Ruby 1.8 is not supported.
+
 Tests
 -----
 
