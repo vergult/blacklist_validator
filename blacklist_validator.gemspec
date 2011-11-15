@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "blacklist_validator"
-  s.version     = "0.0.1"
+  s.version     = "0.0.2"
   s.authors     = ["Axel Vergult"]
   s.email       = ["axel.vergult@gmail.com"]
   s.homepage    = "https://github.com/episko/blacklist_validator"
